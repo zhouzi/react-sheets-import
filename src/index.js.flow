@@ -1,0 +1,16 @@
+/* @flow */
+
+export interface Prop {
+    label(label?: string): string | Prop;
+    key(key?: string): string | Prop;
+    required(required?: boolean): boolean | Prop;
+}
+export type Props = Prop[];
+
+export type Tree = {
+    [key: string]: Prop | Tree
+};
+
+export type Cell = any;
+export type Row = Cell[];
+export type Rows = Row[];

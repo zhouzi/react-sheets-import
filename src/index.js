@@ -1,4 +1,5 @@
 /* @flow */
-import Shape from './Shape';
+import PropTypes from './PropTypes';
+import mapPropsToRows from './mapPropsToRows';
 
-export { Shape };
+export { PropTypes, mapPropsToRows };
