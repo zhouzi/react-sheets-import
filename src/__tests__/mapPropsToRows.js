@@ -100,3 +100,25 @@ test('it should not omit invalid objects if the prop is not required', t => {
 
     t.deepEqual(actual, expected);
 });
+
+test('it should ignore unmapped columns', t => {
+    const props = PropTypes.Shape({
+        name: PropTypes.String().label('Name'),
+        age: PropTypes.Number().label('Age')
+    });
+    const newProps = [null, props[0], null, props[1]];
+    const rows = [['Paris', 'John', 'Red', 29], ['Lyon', 'Jane', 'Yellow', 32]];
+    const actual = mapPropsToRows(newProps, rows);
+    const expected = [
+        {
+            name: 'John',
+            age: 29
+        },
+        {
+            name: 'Jane',
+            age: 32
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});

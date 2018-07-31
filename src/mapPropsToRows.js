@@ -6,6 +6,12 @@ function mapPropsToRow(props: Props, row: Row): ?Object {
 
     for (let index = 0; index < props.length; index += 1) {
         const prop = props[index];
+
+        if (prop == null) {
+            // eslint-disable-next-line no-continue
+            continue;
+        }
+
         const value = prop.deserialize(row[index]);
 
         if (value == null && prop.required()) {

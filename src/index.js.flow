@@ -5,7 +5,7 @@ export interface Prop {
     key(key?: string): string | Prop;
     required(required?: boolean): boolean | Prop;
 }
-export type Props = Prop[];
+export type Props = (Prop | null)[];
 
 export type Tree = {
     [key: string]: Prop | Tree
