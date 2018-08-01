@@ -1,7 +1,7 @@
 /* @flow */
 import Shape from './Shape';
 
-export default class PropTypes {
+class PropTypes {
     static Shape = Shape;
 
     static String() {
@@ -47,3 +47,5 @@ export default class PropTypes {
         return this.json[key];
     }
 }
+
+export default PropTypes;

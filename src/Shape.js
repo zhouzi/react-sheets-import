@@ -1,7 +1,7 @@
 /* @flow */
-import type { Tree } from './index.js.flow';
+import type { Tree, Props } from './index.js.flow';
 
-export default function Shape(tree: Tree) {
+function Shape(tree: Tree): Props {
     return Object.keys(tree).reduce((acc, key) => {
         const value = tree[key];
 
@@ -14,3 +14,5 @@ export default function Shape(tree: Tree) {
         return acc.concat(tree[key].key(key));
     }, []);
 }
+
+export default Shape;

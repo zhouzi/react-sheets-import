@@ -24,7 +24,7 @@ function mapPropsToRow(props: Props, row: Row): ?Object {
     return acc;
 }
 
-export default function mapPropsToRows(props: Props, rows: Rows) {
+function mapPropsToRows(props: Props, rows: Rows) {
     return rows.reduce((acc, row) => {
         const value = mapPropsToRow(props, row);
         return value ? acc.concat(value) : acc;
@@ -47,3 +47,5 @@ function setIn(obj: Object, path: string, value: any): Object {
     }, obj);
     return obj;
 }
+
+export default mapPropsToRows;
