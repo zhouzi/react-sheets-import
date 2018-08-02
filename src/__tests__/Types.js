@@ -11,9 +11,9 @@ test('it should return an array', t => {
 
 test('it should add a prop', t => {
     const props = Types.Object({
-        name: Types.String().label('Name')
+        name: Types.String().alias('Name')
     });
-    const actual = props[0].label();
+    const actual = props[0].alias();
     const expected = 'Name';
 
     t.is(actual, expected);
@@ -21,9 +21,9 @@ test('it should add a prop', t => {
 
 test('it should add a separate prop', t => {
     const props = Types.Object({
-        name: Types.String().label('Address')
+        name: Types.String().alias('Address')
     });
-    const actual = props[0].label();
+    const actual = props[0].alias();
     const expected = 'Address';
 
     t.is(actual, expected);
@@ -32,10 +32,10 @@ test('it should add a separate prop', t => {
 test('it should flatten props', t => {
     const props = Types.Object({
         user: Types.Object({
-            name: Types.String().label('Name')
+            name: Types.String().alias('Name')
         })
     });
-    const actual = props[0].label();
+    const actual = props[0].alias();
     const expected = 'Name';
 
     t.is(actual, expected);

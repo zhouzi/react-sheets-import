@@ -14,11 +14,11 @@ function mapPropsToRow(props: Props, row: Row): ?Object {
 
         const value = prop.deserialize(row[index]);
 
-        if (value == null && prop.required()) {
+        if (value == null && prop.get('required')) {
             return null;
         }
 
-        setIn(acc, prop.key(), value);
+        setIn(acc, prop.get('key'), value);
     }
 
     return acc;

@@ -8,11 +8,13 @@ class Types {
 
             if (Array.isArray(value)) {
                 return acc.concat(
-                    value.map(prop => prop.key(`${key}.${prop.key()}`))
+                    value.map(prop =>
+                        prop.set('key', `${key}.${prop.get('key')}`)
+                    )
                 );
             }
 
-            return acc.concat(tree[key].key(key));
+            return acc.concat(tree[key].set('key', key));
         }, []);
     }
 
@@ -36,26 +38,28 @@ class Types {
         };
     }
 
-    label(...args) {
-        return this.getOrSet('label', ...args);
-    }
-
-    key(...args) {
-        return this.getOrSet('key', ...args);
-    }
-
-    required(...args) {
-        return this.getOrSet('required', ...args);
-    }
-
-    getOrSet(key: string, ...args) {
-        if (args.length > 0) {
-            const [value] = args;
-            this.json[key] = value;
-
-            return this;
+    alias(alias: string) {
+        if (typeof alias === 'string') {
+            return this.set('alias', alias);
         }
 
+        return this.get('alias') || this.get('key');
+    }
+
+    required(required: boolean) {
+        if (typeof required === 'boolean') {
+            return this.set('required', required);
+        }
+
+        return this.get('required');
+    }
+
+    set(key: string, value: any) {
+        this.json[key] = value;
+        return this;
+    }
+
+    get(key: string) {
         return this.json[key];
     }
 }

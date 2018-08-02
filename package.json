@@ -1,5 +1,13 @@
 {
   "name": "react-sheets-import",
+  "description": "Let users load a sheet and map its columns to your model.",
+  "keywords": [
+    "csv",
+    "xls",
+    "sheets",
+    "import",
+    "react"
+  ],
   "version": "0.1.0",
   "main": "dist/index.js",
   "repository": "git@github.com:Zhouzi/react-sheets-import.git",
@@ -29,6 +37,7 @@
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",

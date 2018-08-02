@@ -5,7 +5,7 @@ import mapPropsToRows from '../mapPropsToRows';
 
 test('it should map a simple object', t => {
     const props = Types.Object({
-        name: Types.String().label('Name')
+        name: Types.String().alias('Name')
     });
     const rows = [['John'], ['Jane']];
     const actual = mapPropsToRows(props, rows);
@@ -23,9 +23,9 @@ test('it should map a simple object', t => {
 
 test('it should map a complex object', t => {
     const props = Types.Object({
-        name: Types.String().label('Name'),
+        name: Types.String().alias('Name'),
         address: Types.Object({
-            city: Types.String().label('City')
+            city: Types.String().alias('City')
         })
     });
     const rows = [['John', 'Paris'], ['Jane', 'Lyon']];
@@ -50,7 +50,7 @@ test('it should map a complex object', t => {
 
 test('it should serialize value to string', t => {
     const props = Types.Object({
-        name: Types.String().label('Name')
+        name: Types.String().alias('Name')
     });
     const rows = [[123], [true]];
     const actual = mapPropsToRows(props, rows);
@@ -69,7 +69,7 @@ test('it should serialize value to string', t => {
 test('it should omit invalid objects', t => {
     const props = Types.Object({
         age: Types.Number()
-            .label('Age')
+            .alias('Age')
             .required(true)
     });
     const rows = [['not a number'], [29]];
@@ -85,7 +85,7 @@ test('it should omit invalid objects', t => {
 
 test('it should not omit invalid objects if the prop is not required', t => {
     const props = Types.Object({
-        age: Types.Number().label('Age')
+        age: Types.Number().alias('Age')
     });
     const rows = [['not a number'], [29]];
     const actual = mapPropsToRows(props, rows);
@@ -103,8 +103,8 @@ test('it should not omit invalid objects if the prop is not required', t => {
 
 test('it should ignore unmapped columns', t => {
     const props = Types.Object({
-        name: Types.String().label('Name'),
-        age: Types.Number().label('Age')
+        name: Types.String().alias('Name'),
+        age: Types.Number().alias('Age')
     });
     const newProps = [null, props[0], null, props[1]];
     const rows = [['Paris', 'John', 'Red', 29], ['Lyon', 'Jane', 'Yellow', 32]];

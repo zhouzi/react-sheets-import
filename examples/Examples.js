@@ -20,10 +20,10 @@ import type { Rows, Prop, Props } from '../src/index.js.flow';
 import Container from './Container';
 
 const User = Types.Object({
-    name: Types.String().label('Name'),
-    email: Types.String().label('Email Address'),
-    company: Types.String().label('Company'),
-    website: Types.String().label('Website / Blog')
+    name: Types.String().alias('Name'),
+    email: Types.String().alias('Email Address'),
+    company: Types.String().alias('Company'),
+    website: Types.String().alias('Website / Blog')
 });
 
 type ExamplesProps = {};
@@ -91,8 +91,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                     react-sheets-import
                 </Heading>
                 <SubHeading size={600} marginBottom={40}>
-                    Import csv or xls sheets and map their columns to your
-                    model.
+                    Let users load a sheet and map its columns to your model.
                 </SubHeading>
 
                 {rows.length > 0 ? (
@@ -122,15 +121,15 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                             </Table>
                         </div>
                         <div style={{ flex: '1 0 auto', paddingLeft: 40 }}>
-                            {User.map((prop, propIndex) => (
+                            {User.map(prop => (
                                 <div
-                                    key={prop.label()}
+                                    key={prop.alias()}
                                     style={{
                                         marginBottom: 20
                                     }}
                                 >
                                     <Label display="block" marginBottom={4}>
-                                        {prop.label()}
+                                        {prop.alias()}
                                     </Label>
                                     <SelectMenu
                                         title="Select a value..."
