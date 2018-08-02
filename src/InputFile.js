@@ -28,11 +28,11 @@ class InputFile extends React.Component<InputFileProps> {
     };
 
     render() {
-        const { inputRef } = this.props;
+        const { inputRef, ...props } = this.props;
 
         return (
             <input
-                {...this.props}
+                {...props}
                 ref={inputRef}
                 type="file"
                 accept="text/csv"
