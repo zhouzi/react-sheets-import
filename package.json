@@ -20,7 +20,9 @@
     "test": "ava",
     "start": "parcel examples/index.html --open",
     "prebuild:examples": "rm -rf gh-pages",
-    "build:examples": "parcel build examples/index.html --out-dir gh-pages",
+    "build:examples": "parcel build examples/index.html --out-dir gh-pages --public-url ./",
+    "predeploy": "npm run build:examples",
+    "deploy": "gh-pages -d gh-pages",
     "prebuild:package": "rm -rf dist",
     "build:package": "babel src -d dist",
     "prepublish": "npm run build:package"
@@ -50,6 +52,7 @@
     "eslint-plugin-react": "^7.10.0",
     "evergreen-ui": "^3.2.4",
     "flow-bin": "^0.77.0",
+    "gh-pages": "^1.2.0",
     "parcel-bundler": "^1.9.7",
     "prettier": "^1.14.0",
     "react": "^16.4.1",
