@@ -1,11 +1,11 @@
 /* @flow */
 import test from 'ava';
-import PropTypes from '../PropTypes';
+import Types from '../Types';
 import mapPropsToRows from '../mapPropsToRows';
 
 test('it should map a simple object', t => {
-    const props = PropTypes.Shape({
-        name: PropTypes.String().label('Name')
+    const props = Types.Object({
+        name: Types.String().label('Name')
     });
     const rows = [['John'], ['Jane']];
     const actual = mapPropsToRows(props, rows);
@@ -22,10 +22,10 @@ test('it should map a simple object', t => {
 });
 
 test('it should map a complex object', t => {
-    const props = PropTypes.Shape({
-        name: PropTypes.String().label('Name'),
-        address: PropTypes.Shape({
-            city: PropTypes.String().label('City')
+    const props = Types.Object({
+        name: Types.String().label('Name'),
+        address: Types.Object({
+            city: Types.String().label('City')
         })
     });
     const rows = [['John', 'Paris'], ['Jane', 'Lyon']];
@@ -49,8 +49,8 @@ test('it should map a complex object', t => {
 });
 
 test('it should serialize value to string', t => {
-    const props = PropTypes.Shape({
-        name: PropTypes.String().label('Name')
+    const props = Types.Object({
+        name: Types.String().label('Name')
     });
     const rows = [[123], [true]];
     const actual = mapPropsToRows(props, rows);
@@ -67,8 +67,8 @@ test('it should serialize value to string', t => {
 });
 
 test('it should omit invalid objects', t => {
-    const props = PropTypes.Shape({
-        age: PropTypes.Number()
+    const props = Types.Object({
+        age: Types.Number()
             .label('Age')
             .required(true)
     });
@@ -84,8 +84,8 @@ test('it should omit invalid objects', t => {
 });
 
 test('it should not omit invalid objects if the prop is not required', t => {
-    const props = PropTypes.Shape({
-        age: PropTypes.Number().label('Age')
+    const props = Types.Object({
+        age: Types.Number().label('Age')
     });
     const rows = [['not a number'], [29]];
     const actual = mapPropsToRows(props, rows);
@@ -102,9 +102,9 @@ test('it should not omit invalid objects if the prop is not required', t => {
 });
 
 test('it should ignore unmapped columns', t => {
-    const props = PropTypes.Shape({
-        name: PropTypes.String().label('Name'),
-        age: PropTypes.Number().label('Age')
+    const props = Types.Object({
+        name: Types.String().label('Name'),
+        age: Types.Number().label('Age')
     });
     const newProps = [null, props[0], null, props[1]];
     const rows = [['Paris', 'John', 'Red', 29], ['Lyon', 'Jane', 'Yellow', 32]];

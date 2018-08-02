@@ -10,12 +10,20 @@
   ],
   "scripts": {
     "test": "ava",
-    "prebuild": "rm -rf dist",
-    "build": "babel src -d dist",
-    "prepublish": "npm run build"
+    "start": "parcel examples/index.html --open",
+    "prebuild:examples": "rm -rf gh-pages",
+    "build:examples": "parcel build examples/index.html --out-dir gh-pages",
+    "prebuild:package": "rm -rf dist",
+    "build:package": "babel src -d dist",
+    "prepublish": "npm run build:package"
   },
   "ava": {
-    "require": ["babel-register"]
+    "require": [
+      "babel-register"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.4.1"
   },
   "devDependencies": {
     "ava": "^0.25.0",
@@ -31,7 +39,15 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.10.0",
+    "evergreen-ui": "^3.2.4",
     "flow-bin": "^0.77.0",
-    "prettier": "^1.14.0"
+    "parcel-bundler": "^1.9.7",
+    "prettier": "^1.14.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "save-json-file": "^1.0.0"
+  },
+  "dependencies": {
+    "papaparse": "^4.6.0"
   }
 }

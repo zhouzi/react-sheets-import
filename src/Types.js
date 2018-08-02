@@ -1,15 +1,27 @@
 /* @flow */
-import Shape from './Shape';
+import type { Tree, Props } from './index';
 
-class PropTypes {
-    static Shape = Shape;
+class Types {
+    static Object(tree: Tree): Props {
+        return Object.keys(tree).reduce((acc, key) => {
+            const value = tree[key];
+
+            if (Array.isArray(value)) {
+                return acc.concat(
+                    value.map(prop => prop.key(`${key}.${prop.key()}`))
+                );
+            }
+
+            return acc.concat(tree[key].key(key));
+        }, []);
+    }
 
     static String() {
-        return new PropTypes(value => String(value));
+        return new Types(value => String(value));
     }
 
     static Number() {
-        return new PropTypes(value => {
+        return new Types(value => {
             const num = Number(value);
             return isNaN(num) ? null : num;
         });
@@ -48,4 +60,4 @@ class PropTypes {
     }
 }
 
-export default PropTypes;
+export default Types;

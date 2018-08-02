@@ -1,5 +1,6 @@
 /* @flow */
-import PropTypes from './PropTypes';
+import Types from './Types';
 import mapPropsToRows from './mapPropsToRows';
+import InputFile from './InputFile';
 
-export { PropTypes, mapPropsToRows };
+export { Types, mapPropsToRows, InputFile };
