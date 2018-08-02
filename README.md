@@ -103,3 +103,30 @@ const users = mapPropsToRows(User, rows);
   }
 ]
 ```
+
+### `<InputFile />`
+
+This library also exports a React component to load a sheet and parse its content.
+
+```js
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import { InputFile } from 'react-sheets-import';
+
+class App extends React.Component {
+    onChange = (rows) => {
+        // rows will contain the sheet's rows
+    };
+    
+    render() {
+        return (
+            <InputFile onChange={this.onChange} />
+        );
+    }
+}
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+This component is just a file input configured to accept only the supported files.
+You're free to pass it any other props (e.g `className`).
