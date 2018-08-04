@@ -1,14 +1,14 @@
 /* @flow */
 import test from 'ava';
 import Types from '../Types';
-import mapPropsToRows from '../mapPropsToRows';
+import mapColumnsToRows from '../mapColumnsToRows';
 
 test('it should map a simple object', t => {
-    const props = Types.Object({
+    const columns = Types.Object({
         name: Types.String().alias('Name')
     });
     const rows = [['John'], ['Jane']];
-    const actual = mapPropsToRows(props, rows);
+    const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
             name: 'John'
@@ -22,14 +22,14 @@ test('it should map a simple object', t => {
 });
 
 test('it should map a complex object', t => {
-    const props = Types.Object({
+    const columns = Types.Object({
         name: Types.String().alias('Name'),
         address: Types.Object({
             city: Types.String().alias('City')
         })
     });
     const rows = [['John', 'Paris'], ['Jane', 'Lyon']];
-    const actual = mapPropsToRows(props, rows);
+    const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
             name: 'John',
@@ -49,11 +49,11 @@ test('it should map a complex object', t => {
 });
 
 test('it should serialize value to string', t => {
-    const props = Types.Object({
+    const columns = Types.Object({
         name: Types.String().alias('Name')
     });
     const rows = [[123], [true]];
-    const actual = mapPropsToRows(props, rows);
+    const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
             name: '123'
@@ -67,13 +67,13 @@ test('it should serialize value to string', t => {
 });
 
 test('it should omit invalid objects', t => {
-    const props = Types.Object({
+    const columns = Types.Object({
         age: Types.Number()
             .alias('Age')
             .required(true)
     });
     const rows = [['not a number'], [29]];
-    const actual = mapPropsToRows(props, rows);
+    const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
             age: 29
@@ -83,12 +83,12 @@ test('it should omit invalid objects', t => {
     t.deepEqual(actual, expected);
 });
 
-test('it should not omit invalid objects if the prop is not required', t => {
-    const props = Types.Object({
+test('it should not omit invalid objects if the column is not required', t => {
+    const columns = Types.Object({
         age: Types.Number().alias('Age')
     });
     const rows = [['not a number'], [29]];
-    const actual = mapPropsToRows(props, rows);
+    const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
             age: null
@@ -102,13 +102,13 @@ test('it should not omit invalid objects if the prop is not required', t => {
 });
 
 test('it should ignore unmapped columns', t => {
-    const props = Types.Object({
+    const columns = Types.Object({
         name: Types.String().alias('Name'),
         age: Types.Number().alias('Age')
     });
-    const newProps = [null, props[0], null, props[1]];
+    const newColumns = [null, columns[0], null, columns[1]];
     const rows = [['Paris', 'John', 'Red', 29], ['Lyon', 'Jane', 'Yellow', 32]];
-    const actual = mapPropsToRows(newProps, rows);
+    const actual = mapColumnsToRows(newColumns, rows);
     const expected = [
         {
             name: 'John',

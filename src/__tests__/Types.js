@@ -9,33 +9,33 @@ test('it should return an array', t => {
     t.is(actual, expected);
 });
 
-test('it should add a prop', t => {
-    const props = Types.Object({
+test('it should add a column', t => {
+    const columns = Types.Object({
         name: Types.String().alias('Name')
     });
-    const actual = props[0].alias();
+    const actual = columns[0].alias();
     const expected = 'Name';
 
     t.is(actual, expected);
 });
 
-test('it should add a separate prop', t => {
-    const props = Types.Object({
+test('it should add a separate column', t => {
+    const columns = Types.Object({
         name: Types.String().alias('Address')
     });
-    const actual = props[0].alias();
+    const actual = columns[0].alias();
     const expected = 'Address';
 
     t.is(actual, expected);
 });
 
-test('it should flatten props', t => {
-    const props = Types.Object({
+test('it should flatten column', t => {
+    const columns = Types.Object({
         user: Types.Object({
             name: Types.String().alias('Name')
         })
     });
-    const actual = props[0].alias();
+    const actual = columns[0].alias();
     const expected = 'Name';
 
     t.is(actual, expected);

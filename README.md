@@ -11,7 +11,7 @@ yarn add react-sheets-import
 ## Example
 
 ```js
-import { Types, mapPropsToRows } from 'react-sheets-import';
+import { Types, mapColumnsToRows } from 'react-sheets-import';
 
 const User = Types.Object({
     name: Types.String(),
@@ -21,7 +21,7 @@ const rows = [
     ['John', 'john@gmail.com'],
     ['Jane', 'jane@gmail.com']
 ];
-const users = mapPropsToRows(User, rows);
+const users = mapColumnsToRows(User, rows);
 ```
 
 Have a look at the [examples](./examples) for a real-world example.
@@ -45,6 +45,8 @@ A row will not be imported if any of its required value is invalid.
 **Example:**
 
 ```js
+import { Types, mapColumnsToRows } from 'react-sheets-import';
+
 const User = Types.Object({
     name: Types.String().required()
 });
@@ -52,7 +54,7 @@ const rows = [
     [null],
     ['Jane']
 ];
-const users = mapPropsToRows(User, rows);
+const users = mapColumnsToRows(User, rows);
 
 // The first row will be ignored because it lacks a name.
 ```
@@ -65,6 +67,8 @@ Alternatively, you could also use is as a label.
 **Example:**
 
 ```js
+import { Types } from 'react-sheets-import';
+
 const User = Types.Object({
     name: Types.String().alias('Name')
 });
@@ -74,13 +78,15 @@ const User = Types.Object({
 
 Note: if an alias is not explicitly set, the property's key will be returned.
 
-### `mapPropsToRows(props: Props, rows: Rows)`
+### `mapColumnsToRows(columns: Columns, rows: Rows)`
 
-Converts the rows into JSON objects according to the props provided.
+Converts the rows into JSON objects according to the columns provided.
 
 **Example:**
 
 ```js
+import { Types, mapColumnsToRows } from 'react-sheets-import';
+
 const User = Types.Object({
     name: Types.String().required()
 });
@@ -88,7 +94,7 @@ const rows = [
     ['John'],
     ['Jane']
 ];
-const users = mapPropsToRows(User, rows);
+const users = mapColumnsToRows(User, rows);
 ```
 
 `users` holds:

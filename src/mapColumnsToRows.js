@@ -1,32 +1,32 @@
 /* @flow */
-import type { Props, Row, Rows } from './index.js.flow';
+import type { Columns, Row, Rows } from './index.js.flow';
 
-function mapPropsToRow(props: Props, row: Row): ?Object {
+function mapColumnsToRow(columns: Columns, row: Row): ?Object {
     const acc = {};
 
-    for (let index = 0; index < props.length; index += 1) {
-        const prop = props[index];
+    for (let index = 0; index < columns.length; index += 1) {
+        const column = columns[index];
 
-        if (prop == null) {
+        if (column == null) {
             // eslint-disable-next-line no-continue
             continue;
         }
 
-        const value = prop.deserialize(row[index]);
+        const value = column.deserialize(row[index]);
 
-        if (value == null && prop.get('required')) {
+        if (value == null && column.get('required')) {
             return null;
         }
 
-        setIn(acc, prop.get('key'), value);
+        setIn(acc, column.get('key'), value);
     }
 
     return acc;
 }
 
-function mapPropsToRows(props: Props, rows: Rows) {
+function mapColumnsToRows(columns: Columns, rows: Rows) {
     return rows.reduce((acc, row) => {
-        const value = mapPropsToRow(props, row);
+        const value = mapColumnsToRow(columns, row);
         return value ? acc.concat(value) : acc;
     }, []);
 }
@@ -48,4 +48,4 @@ function setIn(obj: Object, path: string, value: any): Object {
     return obj;
 }
 
-export default mapPropsToRows;
+export default mapColumnsToRows;

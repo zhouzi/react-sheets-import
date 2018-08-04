@@ -1,14 +1,14 @@
 /* @flow */
 
-export interface Prop {
-    label(label?: string): string | Prop;
-    key(key?: string): string | Prop;
-    required(required?: boolean): boolean | Prop;
+export interface Column {
+    label(label?: string): string | Column;
+    key(key?: string): string | Column;
+    required(required?: boolean): boolean | Column;
 }
-export type Props = (Prop | null)[];
+export type Columns = (Column | null)[];
 
 export type Tree = {
-    [key: string]: Prop | Tree
+    [key: string]: Column | Tree
 };
 
 export type Cell = any;

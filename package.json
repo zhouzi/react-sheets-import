@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "clean": "rm -rf .cache && rm -rf dist && rm -rf gh-pages && rm -rf node_modules",
+    "lint": "eslint .",
     "test": "ava",
     "start": "parcel examples/index.html --open",
     "prebuild:examples": "rm -rf gh-pages",

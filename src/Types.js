@@ -1,15 +1,15 @@
 /* @flow */
-import type { Tree, Props } from './index';
+import type { Tree, Columns } from './index';
 
 class Types {
-    static Object(tree: Tree): Props {
+    static Object(tree: Tree): Columns {
         return Object.keys(tree).reduce((acc, key) => {
             const value = tree[key];
 
             if (Array.isArray(value)) {
                 return acc.concat(
-                    value.map(prop =>
-                        prop.set('key', `${key}.${prop.get('key')}`)
+                    value.map(column =>
+                        column.set('key', `${key}.${column.get('key')}`)
                     )
                 );
             }
