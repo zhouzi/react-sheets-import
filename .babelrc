@@ -1,5 +1,21 @@
 {
-  "presets": ["env", "react"],
-  "plugins": ["transform-class-properties", "transform-object-rest-spread"],
-  "ignore": ["**/__tests__/"]
+  "presets": [
+    "env",
+    "react"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-runtime",
+    [
+      "transform-async-to-generator",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
+  ],
+  "ignore": [
+    "**/__tests__/"
+  ]
 }

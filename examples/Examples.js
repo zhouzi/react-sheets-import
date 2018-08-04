@@ -16,6 +16,8 @@ import {
 import saveJSON from 'save-json-file';
 
 import { Types, InputFile, mapPropsToRows } from '../src';
+import CSVParser from '../src/parsers/csv';
+import XLSXParser from '../src/parsers/xlsx';
 import type { Rows, Prop, Props } from '../src/index.js.flow';
 import Container from './Container';
 
@@ -58,6 +60,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
     };
 
     onChangeRows = (rows: Rows) => {
+        console.log(rows);
         this.setState({
             rows,
             currentRowIndex: 0,
@@ -185,6 +188,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                         <InputFile
                             inputRef={this.input}
                             onChange={this.onChangeRows}
+                            parsers={[CSVParser, XLSXParser]}
                             style={{ display: 'none' }}
                         />
                         <Text>Upload Your Sheet</Text>

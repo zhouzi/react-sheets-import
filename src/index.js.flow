@@ -14,3 +14,8 @@ export type Tree = {
 export type Cell = any;
 export type Row = Cell[];
 export type Rows = Row[];
+
+export type Parser = {
+    contentType: string,
+    parse: (file: File) => Promise<Rows>
+};

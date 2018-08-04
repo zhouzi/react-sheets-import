@@ -112,15 +112,20 @@ This library also exports a React component to load a sheet and parse its conten
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { InputFile } from 'react-sheets-import';
+import CSVParser from 'react-sheets-import/dist/parsers/csv';
+import XLSXParser from 'react-sheets-import/dist/parsers/xlsx';
 
 class App extends React.Component {
     onChange = (rows) => {
         // rows will contain the sheet's rows
     };
-    
+
     render() {
         return (
-            <InputFile onChange={this.onChange} />
+            <InputFile
+                onChange={this.onChange}
+                parsers={[CSVParser, XLSXParser]}
+            />
         );
     }
 }
