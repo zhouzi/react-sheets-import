@@ -15,7 +15,7 @@ import {
 } from 'evergreen-ui';
 import saveJSON from 'save-json-file';
 
-import { Types, InputFile, mapPropsToRows } from '../src';
+import { Types, DropZone, mapPropsToRows } from '../src';
 import CSVParser from '../src/parsers/csv';
 import XLSXParser from '../src/parsers/xlsx';
 import type { Rows, Prop, Props } from '../src/index.js.flow';
@@ -32,14 +32,16 @@ type ExamplesProps = {};
 type ExamplesState = {
     rows: Rows,
     currentRowIndex: number,
-    columns: Props
+    columns: Props,
+    isHoverUpload: boolean
 };
 
 class Examples extends React.Component<ExamplesProps, ExamplesState> {
     state = {
         rows: [],
         currentRowIndex: 0,
-        columns: []
+        columns: [],
+        isHoverUpload: false
     };
 
     static getPropIndex(columns: Props, prop: Prop): ?number {
@@ -47,7 +49,17 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         return index > -1 ? index : null;
     }
 
-    input = React.createRef();
+    onHoverUploadEnter = () => {
+        this.setState({
+            isHoverUpload: true
+        });
+    };
+
+    onHoverUploadLeave = () => {
+        this.setState({
+            isHoverUpload: false
+        });
+    };
 
     onSelectRow = (rowIndex: number) => {
         this.setState({
@@ -55,12 +67,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         });
     };
 
-    onUpload = () => {
-        this.input.current.click();
-    };
-
     onChangeRows = (rows: Rows) => {
-        console.log(rows);
         this.setState({
             rows,
             currentRowIndex: 0,
@@ -86,7 +93,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
     };
 
     render() {
-        const { rows, currentRowIndex, columns } = this.state;
+        const { rows, currentRowIndex, columns, isHoverUpload } = this.state;
 
         return (
             <Container>
@@ -176,22 +183,30 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                     </Pane>
                 ) : (
                     <Pane
-                        appearance="tint2"
+                        appearance={isHoverUpload ? 'selected' : 'tint2'}
                         border="muted"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
                         height={320}
                         cursor="pointer"
                         onClick={this.onUpload}
+                        onMouseEnter={this.onHoverUploadEnter}
+                        onMouseLeave={this.onHoverUploadLeave}
                     >
-                        <InputFile
-                            inputRef={this.input}
+                        <DropZone
+                            style={{
+                                display: 'flex',
+                                height: '100%',
+                                width: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
                             onChange={this.onChangeRows}
                             parsers={[CSVParser, XLSXParser]}
-                            style={{ display: 'none' }}
-                        />
-                        <Text>Upload Your Sheet</Text>
+                        >
+                            <Text size={400} marginRight={6}>
+                                Drop your Excel/CSV file here or
+                            </Text>
+                            <Button>Browse</Button>
+                        </DropZone>
                     </Pane>
                 )}
             </Container>

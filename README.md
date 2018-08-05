@@ -110,9 +110,41 @@ const users = mapColumnsToRows(User, rows);
 ]
 ```
 
+### `<DropZone />`
+
+This component is a simple `<div />` with file dropping ability.
+It can also be clicked to let the user browse files on their computer.
+
+```js
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import { DropZone } from 'react-sheets-import';
+import CSVParser from 'react-sheets-import/dist/parsers/csv';
+import XLSXParser from 'react-sheets-import/dist/parsers/xlsx';
+
+class App extends React.Component {
+    onChange = (rows) => {
+        // rows will contain the sheet's rows
+    };
+
+    render() {
+        return (
+            <DropZone
+                onChange={this.onChange}
+                parsers={[CSVParser, XLSXParser]}
+            >
+                Drop your file or browse. 
+            </DropZone>
+        );
+    }
+}
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
 ### `<InputFile />`
 
-This library also exports a React component to load a sheet and parse its content.
+A basic `<input type="file" />` component.
 
 ```js
 import * as React from 'react';
@@ -138,6 +170,3 @@ class App extends React.Component {
 
 ReactDOM.render(<App />, window.document.getElementById('root'));
 ```
-
-This component is just a file input configured to accept only the supported files.
-You're free to pass it any other props (e.g `className`).

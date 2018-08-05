@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 import type { Rows, Parser } from './index.js.flow';
+import parseFile from './parseFile';
 
 type InputFileProps = {
     inputRef?: (input: ?HTMLInputElement) => void,
@@ -17,17 +18,7 @@ class InputFile extends React.Component<InputFileProps> {
     onChange = async (event: SyntheticInputEvent<HTMLInputElement>) => {
         const { onChange, parsers } = this.props;
         const file = event.target.files[0];
-        const parser = parsers.find(
-            ({ contentType }) => file.type === contentType
-        );
-
-        if (parser == null) {
-            throw new Error(
-                `No parser for file with contentType ${file.contentType}`
-            );
-        }
-
-        const rows = await parser.parse(file);
+        const rows = await parseFile(file, parsers);
         onChange(rows);
     };
 
