@@ -1,7 +1,7 @@
 /* @flow */
 
 export interface Column {
-    label(label?: string): string | Column;
+    alias(alias?: string): string | Column;
     key(key?: string): string | Column;
     required(required?: boolean): boolean | Column;
 }

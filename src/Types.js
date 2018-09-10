@@ -29,11 +29,33 @@ class Types {
         });
     }
 
+    static Boolean() {
+        return new Types(value => Boolean(value));
+    }
+
+    static Email() {
+        return new Types(
+            value => (/[^@]+@[^@]+\.[a-z]{2,}/i.test(value) ? value : null)
+        );
+    }
+
+    static Date() {
+        return new Types(value => {
+            if (!value && typeof value !== 'number') {
+                // Skip falsy values that are not numbers
+                return null;
+            }
+
+            const date = new Date(value);
+            return date instanceof Date && !isNaN(date) ? date : null;
+        });
+    }
+
     constructor(deserialize: (value: any) => any) {
         this.deserialize = deserialize;
         this.json = {
             key: '',
-            label: 'Name',
+            alias: 'Name',
             required: false
         };
     }

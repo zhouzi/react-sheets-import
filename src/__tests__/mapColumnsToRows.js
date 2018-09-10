@@ -66,6 +66,88 @@ test('it should serialize value to string', t => {
     t.deepEqual(actual, expected);
 });
 
+test('it should serialize value to boolean', t => {
+    const columns = Types.Object({
+        isOpen: Types.Boolean().alias('Is Open')
+    });
+    const rows = [['yes'], [false], [0], [true]];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            isOpen: true
+        },
+        {
+            isOpen: false
+        },
+        {
+            isOpen: false
+        },
+        {
+            isOpen: true
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
+test('it should serialize value to email', t => {
+    const columns = Types.Object({
+        email: Types.Email().alias('Email')
+    });
+    const rows = [
+        ['john@gmail.com'],
+        ['notanemail'],
+        [false],
+        ['jane@live.fr']
+    ];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            email: 'john@gmail.com'
+        },
+        {
+            email: null
+        },
+        {
+            email: null
+        },
+        {
+            email: 'jane@live.fr'
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
+test('it should serialize value to date', t => {
+    const columns = Types.Object({
+        date: Types.Date().alias('Date')
+    });
+    const rows = [
+        ['2005-08-27'],
+        ['not a date'],
+        [false],
+        [1125100800000]
+    ];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            date: new Date('2005-08-27')
+        },
+        {
+            date: null
+        },
+        {
+            date: null
+        },
+        {
+            date: new Date('2005-08-27')
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
 test('it should omit invalid objects', t => {
     const columns = Types.Object({
         age: Types.Number()
