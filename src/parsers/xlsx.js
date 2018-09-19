@@ -13,7 +13,7 @@ export default {
                 const data = new Uint8Array(event.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
                 const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                const rows = XLSX.utils.sheet_to_json(sheet);
+                const rows = XLSX.utils.sheet_to_json(sheet, {header:1, blankrows:false, defval:null});
                 const maxCells = rows.reduce((max, row) => {
                     const cells = Object.keys(row).length;
                     return cells > max ? cells : max;

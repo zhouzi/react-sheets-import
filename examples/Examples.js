@@ -5,6 +5,7 @@ import {
     SubHeading,
     Pane,
     SelectMenu,
+    Checkbox,
     Button,
     Label,
     Text,
@@ -15,7 +16,7 @@ import {
 } from 'evergreen-ui';
 import saveJSON from 'save-json-file';
 
-import { Types, DropZone, mapPropsToRows } from '../src';
+import { Types, DropZone, mapColumnsToRows } from '../src';
 import CSVParser from '../src/parsers/csv';
 import XLSXParser from '../src/parsers/xlsx';
 import type { Rows, Prop, Props } from '../src/index.js.flow';
@@ -41,7 +42,8 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         rows: [],
         currentRowIndex: 0,
         columns: [],
-        isHoverUpload: false
+        isHoverUpload: false,
+        isIgnoreHeaderRow:true,
     };
 
     static getPropIndex(columns: Props, prop: Prop): ?number {
@@ -88,12 +90,15 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
     };
 
     onDownload = () => {
-        const { columns, rows } = this.state;
-        saveJSON(mapPropsToRows(columns, rows));
+        const { columns, rows, isIgnoreHeaderRow } = this.state;
+        if(isIgnoreHeaderRow) {
+            rows.shift();
+        }
+        saveJSON(mapColumnsToRows(columns, rows));
     };
 
     render() {
-        const { rows, currentRowIndex, columns, isHoverUpload } = this.state;
+        const { rows, currentRowIndex, columns, isHoverUpload, isIgnoreHeaderRow } = this.state;
 
         return (
             <Container>
@@ -173,6 +178,16 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                                     </SelectMenu>
                                 </div>
                             ))}
+                            <Checkbox
+                                height="20"
+                                checked={isIgnoreHeaderRow}
+                                appearance="default"
+                                hasCheckIcon={true}
+                                label="Ignore header row"
+                                onChange={ () => this.setState({isIgnoreHeaderRow:!isIgnoreHeaderRow})}
+                            >
+                                </Checkbox>
+
                             <Button
                                 appearance="green"
                                 onClick={this.onDownload}
