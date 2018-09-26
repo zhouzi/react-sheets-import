@@ -51,8 +51,9 @@ class Types {
         });
     }
 
-    constructor(deserialize: (value: any) => any) {
-        this.deserialize = deserialize;
+    constructor(deserializer: (value: any) => any) {
+        this.deserialize = (value:any) => deserializer(value === null ? this.defaultValue() : value);
+
         this.json = {
             key: '',
             alias: 'Name',
@@ -74,6 +75,14 @@ class Types {
         }
 
         return this.get('required');
+    }
+
+    defaultValue(value: any) {
+        if ( value || false) {
+            return this.set('defaultValue', value);
+        }
+
+        return this.get('defaultValue') || null;
     }
 
     set(key: string, value: any) {
