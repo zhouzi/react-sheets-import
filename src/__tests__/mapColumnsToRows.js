@@ -123,12 +123,7 @@ test('it should serialize value to date', t => {
     const columns = Types.Object({
         date: Types.Date().alias('Date')
     });
-    const rows = [
-        ['2005-08-27'],
-        ['not a date'],
-        [false],
-        [1125100800000]
-    ];
+    const rows = [['2005-08-27'], ['not a date'], [false], [1125100800000]];
     const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
