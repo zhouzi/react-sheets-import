@@ -19,7 +19,7 @@ class Types {
     }
 
     static String() {
-        return new Types(value => String(value));
+        return new Types(value => value === null ? null : String(value));
     }
 
     static Number() {
@@ -30,7 +30,7 @@ class Types {
     }
 
     static Boolean() {
-        return new Types(value => Boolean(value));
+        return new Types(value => value === null ? null : Boolean(value));
     }
 
     static Email() {

@@ -5,6 +5,7 @@ import {
     SubHeading,
     Pane,
     SelectMenu,
+    Checkbox,
     Button,
     Label,
     Text,
@@ -15,7 +16,7 @@ import {
 } from 'evergreen-ui';
 import saveJSON from 'save-json-file';
 
-import { Types, DropZone, mapPropsToRows } from '../src';
+import { Types, DropZone, mapColumnsToRows } from '../src';
 import CSVParser from '../src/parsers/csv';
 import XLSXParser from '../src/parsers/xlsx';
 import type { Rows, Prop, Props } from '../src/index.js.flow';
@@ -41,7 +42,8 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         rows: [],
         currentRowIndex: 0,
         columns: [],
-        isHoverUpload: false
+        isHoverUpload: false,
+        isIgnoreHeaderRow: true
     };
 
     static getPropIndex(columns: Props, prop: Prop): ?number {
@@ -88,12 +90,26 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
     };
 
     onDownload = () => {
-        const { columns, rows } = this.state;
-        saveJSON(mapPropsToRows(columns, rows));
+        const { columns, isIgnoreHeaderRow } = this.state;
+        const rows = isIgnoreHeaderRow ? this.state.rows.slice(1) : this.state.rows;
+
+        saveJSON(mapColumnsToRows(columns, rows));
+    };
+
+    onToggleIgnoreHeaderRow = () => {
+        this.setState(({ isIgnoreHeaderRow }) => ({
+            isIgnoreHeaderRow: !isIgnoreHeaderRow
+        }));
     };
 
     render() {
-        const { rows, currentRowIndex, columns, isHoverUpload } = this.state;
+        const {
+            rows,
+            currentRowIndex,
+            columns,
+            isHoverUpload,
+            isIgnoreHeaderRow
+        } = this.state;
 
         return (
             <Container>
@@ -106,10 +122,10 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
 
                 {rows.length > 0 ? (
                     <Pane elevation={0} padding={20} display="flex">
-                        <div style={{ width: '60%', overflowX: 'auto' }}>
+                        <div style={{ width: '75%', overflowX: 'auto' }}>
                             <Table width="max-content">
-                                <TableBody>
-                                    {rows.slice(0, 10).map((row, rowIndex) => (
+                                <TableBody height={360}>
+                                    {rows.slice(0, 20).map((row, rowIndex) => (
                                         <TableRow
                                             key={rowIndex}
                                             onSelect={() =>
@@ -121,12 +137,30 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                                             isSelectable
                                         >
                                             {row.map((cell, cellIndex) => (
-                                                <TextTableCell key={cellIndex}>
+                                                <TextTableCell
+                                                    key={cellIndex}
+                                                    borderRight={
+                                                        row.length - 1 ===
+                                                        cellIndex
+                                                            ? null
+                                                            : true
+                                                    }
+                                                >
                                                     {cell}
                                                 </TextTableCell>
                                             ))}
                                         </TableRow>
                                     ))}
+                                    {rows.length > 20 ? (
+                                        <TableRow key="moreRow">
+                                            <TextTableCell key="moreCell">
+                                                <b>{rows.length - 20}</b>{' '}
+                                                additionnal rows where found...
+                                            </TextTableCell>
+                                        </TableRow>
+                                    ) : (
+                                        ''
+                                    )}
                                 </TableBody>
                             </Table>
                         </div>
@@ -161,7 +195,7 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                                             {Examples.getPropIndex(
                                                 columns,
                                                 prop
-                                            ) == null
+                                            ) === null
                                                 ? 'Select a value...'
                                                 : rows[currentRowIndex][
                                                       Examples.getPropIndex(
@@ -173,6 +207,15 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                                     </SelectMenu>
                                 </div>
                             ))}
+                            <Checkbox
+                                height="20"
+                                checked={isIgnoreHeaderRow}
+                                appearance="default"
+                                hasCheckIcon
+                                label="Ignore header row"
+                                onChange={this.onToggleIgnoreHeaderRow}
+                            />
+
                             <Button
                                 appearance="green"
                                 onClick={this.onDownload}
