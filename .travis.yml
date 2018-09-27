@@ -1,7 +1,7 @@
 language: node_js
 jobs:
   include:
-    - stage: unit tests
-      script: yarn test
-    - stage: lint
-      script: yarn lint
+    - stage: unit tests and lint
+      script:
+        - yarn test
+        - yarn lint
