@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable react/no-array-index-key */
 import * as React from 'react';
 import {
     Heading,
@@ -91,7 +92,9 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
 
     onDownload = () => {
         const { columns, isIgnoreHeaderRow } = this.state;
-        const rows = isIgnoreHeaderRow ? this.state.rows.slice(1) : this.state.rows;
+        const rows = isIgnoreHeaderRow
+            ? this.state.rows.slice(1)
+            : this.state.rows;
 
         saveJSON(mapColumnsToRows(columns, rows));
     };

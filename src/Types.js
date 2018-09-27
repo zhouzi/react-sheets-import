@@ -25,6 +25,7 @@ class Types {
     static Number() {
         return new Types(value => {
             const num = Number(value);
+            // eslint-disable-next-line no-restricted-globals
             return isNaN(num) ? null : num;
         });
     }
@@ -47,6 +48,7 @@ class Types {
             }
 
             const date = new Date(value);
+            // eslint-disable-next-line no-restricted-globals
             return date instanceof Date && !isNaN(date) ? date : null;
         });
     }
