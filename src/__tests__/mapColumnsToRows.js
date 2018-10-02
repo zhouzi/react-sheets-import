@@ -66,6 +66,21 @@ test('it should serialize value to string', t => {
     t.deepEqual(actual, expected);
 });
 
+test('it should not serialize null to string', t => {
+    const columns = Types.Object({
+        name: Types.String().alias('Name')
+    });
+    const rows = [[null]];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            name: null
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
 test('it should serialize value to boolean', t => {
     const columns = Types.Object({
         isOpen: Types.Boolean().alias('Is Open')
@@ -84,6 +99,21 @@ test('it should serialize value to boolean', t => {
         },
         {
             isOpen: true
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
+test('it should not serialize null to boolean', t => {
+    const columns = Types.Object({
+        isOpen: Types.Boolean().alias('Is Open')
+    });
+    const rows = [[null]];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            isOpen: null
         }
     ];
 
@@ -123,12 +153,7 @@ test('it should serialize value to date', t => {
     const columns = Types.Object({
         date: Types.Date().alias('Date')
     });
-    const rows = [
-        ['2005-08-27'],
-        ['not a date'],
-        [false],
-        [1125100800000]
-    ];
+    const rows = [['2005-08-27'], ['not a date'], [false], [1125100800000]];
     const actual = mapColumnsToRows(columns, rows);
     const expected = [
         {
