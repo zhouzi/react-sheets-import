@@ -19,7 +19,7 @@ class Types {
     }
 
     static String() {
-        return new Types(value => value === null ? null : String(value));
+        return new Types(value => (value === null ? null : String(value)));
     }
 
     static Number() {
@@ -31,7 +31,7 @@ class Types {
     }
 
     static Boolean() {
-        return new Types(value => value === null ? null : Boolean(value));
+        return new Types(value => (value === null ? null : Boolean(value)));
     }
 
     static Email() {
@@ -54,7 +54,8 @@ class Types {
     }
 
     constructor(deserializer: (value: any) => any) {
-        this.deserialize = (value:any) => deserializer(value === null ? this.defaultValue() : value);
+        this.deserialize = (value: any) =>
+            deserializer(value === null ? this.defaultValue() : value);
 
         this.json = {
             key: '',
@@ -80,7 +81,7 @@ class Types {
     }
 
     defaultValue(value: any) {
-        if ( value || false) {
+        if (value || false) {
             return this.set('defaultValue', value);
         }
 
