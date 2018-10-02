@@ -81,7 +81,7 @@ class Types {
     }
 
     defaultValue(value: any) {
-        if (value || false) {
+        if (value === undefined) {
             return this.set('defaultValue', value);
         }
 
