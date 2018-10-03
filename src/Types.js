@@ -19,7 +19,7 @@ class Types {
     }
 
     static String() {
-        return new Types(value => (value == null ? null : String(value)));
+        return new Types(value => (value === null ? null : String(value)));
     }
 
     static Number() {
@@ -31,7 +31,7 @@ class Types {
     }
 
     static Boolean() {
-        return new Types(value => (value == null ? null : Boolean(value)));
+        return new Types(value => (value === null ? null : Boolean(value)));
     }
 
     static Email() {
@@ -53,8 +53,10 @@ class Types {
         });
     }
 
-    constructor(deserialize: (value: any) => any) {
-        this.deserialize = deserialize;
+    constructor(deserializer: (value: any) => any) {
+        this.deserialize = (value: any) =>
+            deserializer(value === null ? this.defaultValue() : value);
+
         this.json = {
             key: '',
             alias: 'Name',
@@ -76,6 +78,14 @@ class Types {
         }
 
         return this.get('required');
+    }
+
+    defaultValue(value: any) {
+        if (value !== undefined) {
+            return this.set('defaultValue', value);
+        }
+
+        return this.get('defaultValue') || null;
     }
 
     set(key: string, value: any) {
