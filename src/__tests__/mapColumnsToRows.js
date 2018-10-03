@@ -229,3 +229,33 @@ test('it should ignore unmapped columns', t => {
 
     t.deepEqual(actual, expected);
 });
+
+test('it should deserialize null values to the default value', t => {
+    const columns = Types.Object({
+        name: Types.String().defaultValue('John')
+    });
+    const rows = [[null]];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            name: 'John'
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});
+
+test('it should deserialize null to a falsy default value', t => {
+    const columns = Types.Object({
+        name: Types.String().defaultValue('')
+    });
+    const rows = [[null]];
+    const actual = mapColumnsToRows(columns, rows);
+    const expected = [
+        {
+            name: ''
+        }
+    ];
+
+    t.deepEqual(actual, expected);
+});

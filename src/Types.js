@@ -60,7 +60,8 @@ class Types {
         this.json = {
             key: '',
             alias: 'Name',
-            required: false
+            required: false,
+            defaultValue: null
         };
     }
 
@@ -85,7 +86,7 @@ class Types {
             return this.set('defaultValue', value);
         }
 
-        return this.get('defaultValue') || null;
+        return this.get('defaultValue');
     }
 
     set(key: string, value: any) {
