@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react';
 
-import type { Parser, Rows } from './index.js.flow';
-import parseFile from './parseFile';
+import type { Parser, Rows } from '../index.js.flow';
+import parseFile from '../parseFile';
 import InputFile from './InputFile';
 
 type DropZoneProps = {
