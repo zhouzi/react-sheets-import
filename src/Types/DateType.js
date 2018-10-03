@@ -5,7 +5,7 @@ export default class DateType extends GenericType {
     deserialize(value: any): ?Date {
         if (!value && typeof value !== 'number') {
             // Skip falsy values that are not numbers
-            return this.defaultValue();
+            return this.get('defaultValue');
         }
 
         const date = new Date(value);
@@ -14,6 +14,6 @@ export default class DateType extends GenericType {
             return date;
         }
 
-        return this.defaultValue();
+        return this.get('defaultValue');
     }
 }

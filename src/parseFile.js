@@ -1,6 +1,10 @@
 /* @flow */
-import type { Parser, Rows } from './index.js.flow';
+import type { Parser, Rows } from './types.flow';
 
+/*
+ * Parse a file with the relevant parsers, if available.
+ * Throws an error if there are no parsers for the file.
+ */
 function parseFile(file: File, parsers: Parser[]): Promise<Rows> {
     const parser = parsers.find(({ contentType }) => file.type === contentType);
 

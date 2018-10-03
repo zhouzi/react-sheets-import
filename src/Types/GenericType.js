@@ -1,49 +1,45 @@
 /* @flow */
+import type { Type } from '../types.flow';
 
-class GenericType {
-    constructor() {
-        this.json = {
-            key: '',
-            alias: 'Name',
-            required: false,
-            defaultValue: null
-        };
+class GenericType implements Type {
+    json: {
+        key: string,
+        alias: string,
+        required: boolean,
+        defaultValue: any
+    } = {
+        key: '',
+        alias: 'Name',
+        required: false,
+        defaultValue: null
+    };
+
+    deserialize(value: any): any {
+        throw new Error('This type is missing a deserialize method');
     }
 
-    deserialize(value: any) {
-        return value == null ? this.defaultValue() : value;
+    alias(alias: string): Type {
+        return this.set('alias', alias);
     }
 
-    alias(alias: string) {
-        if (typeof alias === 'string') {
-            return this.set('alias', alias);
-        }
-
-        return this.get('alias') || this.get('key');
+    required(required: boolean): Type {
+        return this.set('required', required);
     }
 
-    required(required: boolean) {
-        if (typeof required === 'boolean') {
-            return this.set('required', required);
-        }
-
-        return this.get('required');
+    defaultValue(value: any): Type {
+        return this.set('defaultValue', value);
     }
 
-    defaultValue(value: any) {
-        if (value !== undefined) {
-            return this.set('defaultValue', value);
-        }
-
-        return this.get('defaultValue');
-    }
-
-    set(key: string, value: any) {
+    set(key: string, value: any): Type {
         this.json[key] = value;
         return this;
     }
 
-    get(key: string) {
+    get(key: string): any {
+        if (key === 'alias') {
+            return this.json.alias || this.json.key;
+        }
+
         return this.json[key];
     }
 }
