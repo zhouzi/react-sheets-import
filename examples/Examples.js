@@ -94,11 +94,11 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
 
     onDownload = () => {
         const { columns, isIgnoreHeaderRow } = this.state;
-        const rows = isIgnoreHeaderRow
-            ? this.state.rows.slice(1)
-            : this.state.rows;
+        const { rows } = this.state;
 
-        saveJSON(mapColumnsToRows(columns, rows));
+        saveJSON(
+            mapColumnsToRows(columns, isIgnoreHeaderRow ? rows.slice(1) : rows)
+        );
     };
 
     onToggleIgnoreHeaderRow = () => {
