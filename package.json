@@ -27,12 +27,13 @@
     "predeploy": "npm run build:examples",
     "deploy": "gh-pages -d gh-pages",
     "prebuild:package": "rm -rf dist",
-    "build:package": "babel src -d dist",
+    "build:package": "babel src -d dist --ignore '**/__tests__/**'",
+    "build": "npm run build:package && npm run build:examples",
     "prepublish": "npm run build:package"
   },
   "ava": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ]
   },
   "peerDependencies": {
@@ -40,15 +41,14 @@
     "xlsx": "^0.13.3"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "ava": "^1.0.0-beta.8",
     "eslint": "^4.19.1",
     "eslint-config-gitbook": "^4.0.0",
     "eslint-plugin-flowtype": "^2.50.0",
