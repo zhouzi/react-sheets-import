@@ -27,7 +27,7 @@ class GenericType implements Type {
     }
 
     defaultValue(value: any): Type {
-        return this.set('defaultValue', value);
+        return this.set('defaultValue', this.deserialize(value));
     }
 
     set(key: string, value: any): Type {

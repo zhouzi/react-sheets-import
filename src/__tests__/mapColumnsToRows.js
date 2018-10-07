@@ -23,7 +23,7 @@ test('it should map a simple object', t => {
     t.deepEqual(actual, expected);
 });
 
-test('it should map a complex object', t => {
+test('it should map an object with nested fields', t => {
     const columns = [
         ...Types.Object({
             name: Types.String().alias('Name'),
@@ -52,144 +52,7 @@ test('it should map a complex object', t => {
     t.deepEqual(actual, expected);
 });
 
-test('it should serialize value to string', t => {
-    const columns = [
-        ...Types.Object({
-            name: Types.String().alias('Name')
-        })
-    ];
-    const rows = [[123], [true]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            name: '123'
-        },
-        {
-            name: 'true'
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should not serialize null to string', t => {
-    const columns = [
-        ...Types.Object({
-            name: Types.String().alias('Name')
-        })
-    ];
-    const rows = [[null]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            name: null
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should serialize value to boolean', t => {
-    const columns = [
-        ...Types.Object({
-            isOpen: Types.Boolean().alias('Is Open')
-        })
-    ];
-    const rows = [['yes'], [false], [0], [true]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            isOpen: true
-        },
-        {
-            isOpen: false
-        },
-        {
-            isOpen: false
-        },
-        {
-            isOpen: true
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should not serialize null to boolean', t => {
-    const columns = [
-        ...Types.Object({
-            isOpen: Types.Boolean().alias('Is Open')
-        })
-    ];
-    const rows = [[null]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            isOpen: null
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should serialize value to email', t => {
-    const columns = [
-        ...Types.Object({
-            email: Types.Email().alias('Email')
-        })
-    ];
-    const rows = [
-        ['john@gmail.com'],
-        ['notanemail'],
-        [false],
-        ['jane@live.fr']
-    ];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            email: 'john@gmail.com'
-        },
-        {
-            email: null
-        },
-        {
-            email: null
-        },
-        {
-            email: 'jane@live.fr'
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should serialize value to date', t => {
-    const columns = [
-        ...Types.Object({
-            date: Types.Date().alias('Date')
-        })
-    ];
-    const rows = [['2005-08-27'], ['not a date'], [false], [1125100800000]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            date: new Date('2005-08-27')
-        },
-        {
-            date: null
-        },
-        {
-            date: null
-        },
-        {
-            date: new Date('2005-08-27')
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should omit invalid objects', t => {
+test('it should omit objects missing a required property', t => {
     const columns = [
         ...Types.Object({
             age: Types.Number()
@@ -208,7 +71,7 @@ test('it should omit invalid objects', t => {
     t.deepEqual(actual, expected);
 });
 
-test('it should not omit invalid objects if the column is not required', t => {
+test('it should not omit objects missing a non-required property', t => {
     const columns = [
         ...Types.Object({
             age: Types.Number().alias('Age')
@@ -246,40 +109,6 @@ test('it should ignore unmapped columns', t => {
         {
             name: 'Jane',
             age: 32
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should deserialize null values to the default value', t => {
-    const columns = [
-        ...Types.Object({
-            name: Types.String().defaultValue('John')
-        })
-    ];
-    const rows = [[null]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            name: 'John'
-        }
-    ];
-
-    t.deepEqual(actual, expected);
-});
-
-test('it should deserialize null to a falsy default value', t => {
-    const columns = [
-        ...Types.Object({
-            name: Types.String().defaultValue('')
-        })
-    ];
-    const rows = [[null]];
-    const actual = mapColumnsToRows(columns, rows);
-    const expected = [
-        {
-            name: ''
         }
     ];
 
