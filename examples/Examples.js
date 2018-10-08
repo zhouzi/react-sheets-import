@@ -20,7 +20,8 @@ import saveJSON from 'save-json-file';
 import { Types, DropZone, mapColumnsToRows } from '../src';
 import CSVParser from '../src/parsers/csv';
 import XLSXParser from '../src/parsers/xlsx';
-import type { Rows, Prop, Props } from '../src/index.js.flow';
+import type { Rows, Type, Columns } from '../src/types.flow';
+
 import Container from './Container';
 
 const User = Types.Object({
@@ -34,8 +35,9 @@ type ExamplesProps = {};
 type ExamplesState = {
     rows: Rows,
     currentRowIndex: number,
-    columns: Props,
-    isHoverUpload: boolean
+    columns: Columns,
+    isHoverUpload: boolean,
+    isIgnoreHeaderRow: boolean
 };
 
 class Examples extends React.Component<ExamplesProps, ExamplesState> {
@@ -47,8 +49,8 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         isIgnoreHeaderRow: true
     };
 
-    static getPropIndex(columns: Props, prop: Prop): ?number {
-        const index = columns.findIndex(column => column === prop);
+    static getPropIndex(columns: Columns, column: Type): ?number {
+        const index = columns.findIndex(col => col === column);
         return index > -1 ? index : null;
     }
 
@@ -78,25 +80,25 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
         });
     };
 
-    onSelect = (prop: Prop, index: number) => {
+    onSelect = (column: Type, index: number) => {
         this.setState(({ columns }) => ({
-            columns: columns.map((column, columnIndex) => {
+            columns: columns.map((col, columnIndex) => {
                 if (columnIndex === index) {
-                    return prop;
+                    return column;
                 }
 
-                return column === prop ? null : column;
+                return col === column ? null : col;
             })
         }));
     };
 
     onDownload = () => {
         const { columns, isIgnoreHeaderRow } = this.state;
-        const rows = isIgnoreHeaderRow
-            ? this.state.rows.slice(1)
-            : this.state.rows;
+        const { rows } = this.state;
 
-        saveJSON(mapColumnsToRows(columns, rows));
+        saveJSON(
+            mapColumnsToRows(columns, isIgnoreHeaderRow ? rows.slice(1) : rows)
+        );
     };
 
     onToggleIgnoreHeaderRow = () => {
@@ -170,13 +172,13 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                         <div style={{ flex: '1 0 auto', paddingLeft: 40 }}>
                             {User.map(prop => (
                                 <div
-                                    key={prop.alias()}
+                                    key={prop.get('alias')}
                                     style={{
                                         marginBottom: 20
                                     }}
                                 >
                                     <Label display="block" marginBottom={4}>
-                                        {prop.alias()}
+                                        {prop.get('alias')}
                                     </Label>
                                     <SelectMenu
                                         title="Select a value..."
@@ -198,9 +200,10 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                                             {Examples.getPropIndex(
                                                 columns,
                                                 prop
-                                            ) === null
+                                            ) == null
                                                 ? 'Select a value...'
-                                                : rows[currentRowIndex][
+                                                : // $FlowFixMe getPropIndex is assured not to return null but I'm too lazy to move it for now
+                                                  rows[currentRowIndex][
                                                       Examples.getPropIndex(
                                                           columns,
                                                           prop
@@ -233,7 +236,6 @@ class Examples extends React.Component<ExamplesProps, ExamplesState> {
                         border="muted"
                         height={320}
                         cursor="pointer"
-                        onClick={this.onUpload}
                         onMouseEnter={this.onHoverUploadEnter}
                         onMouseLeave={this.onHoverUploadLeave}
                     >

@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react';
 
-import type { Parser, Rows } from './index.js.flow';
-import parseFile from './parseFile';
+import type { Parser, Rows } from '../types.flow';
+import parseFile from '../parseFile';
 import InputFile from './InputFile';
 
 type DropZoneProps = {
@@ -15,7 +15,9 @@ class DropZone extends React.Component<DropZoneProps> {
     input = React.createRef();
 
     browse = () => {
-        this.input.current.click();
+        if (this.input.current) {
+            this.input.current.click();
+        }
     };
 
     onKeyDown = (event: SyntheticKeyboardEvent<*>) => {

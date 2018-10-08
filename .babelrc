@@ -1,21 +1,10 @@
 {
   "presets": [
-    "env",
-    "react"
+    "@babel/env",
+    "@babel/flow",
+    "@babel/react"
   ],
   "plugins": [
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-runtime",
-    [
-      "transform-async-to-generator",
-      {
-        "polyfill": false,
-        "regenerator": true
-      }
-    ]
-  ],
-  "ignore": [
-    "**/__tests__/"
+    "@babel/plugin-proposal-class-properties"
   ]
 }

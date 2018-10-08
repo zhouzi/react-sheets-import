@@ -1,7 +1,6 @@
 /* @flow */
-import Types from './Types';
+import Types, { GenericType } from './Types';
 import mapColumnsToRows from './mapColumnsToRows';
-import DropZone from './DropZone';
-import InputFile from './InputFile';
+import { DropZone, InputFile } from './components';
 
-export { Types, mapColumnsToRows, DropZone, InputFile };
+export { Types, GenericType, mapColumnsToRows, DropZone, InputFile };

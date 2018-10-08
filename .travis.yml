@@ -3,5 +3,6 @@ jobs:
   include:
     - stage: unit tests and lint
       script:
-        - yarn test
         - yarn lint
+        - yarn test
+        - yarn types
