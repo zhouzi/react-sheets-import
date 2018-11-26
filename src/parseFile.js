@@ -6,7 +6,7 @@ import type { Parser, Rows } from './types.flow';
  * Throws an error if there are no parsers for the file.
  */
 function parseFile(file: File, parsers: Parser[]): Promise<Rows> {
-    const parser = parsers.find(({ contentType }) => file.type === contentType);
+    const parser = parsers.find(({ contentType }) => contentType.includes(file.type));
 
     if (parser == null) {
         throw new Error(`No parser for file with contentType ${file.type}`);
