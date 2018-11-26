@@ -1,11 +1,11 @@
 /* @flow */
 import * as React from 'react';
 
-import type { Rows, Parser } from './index.js.flow';
-import parseFile from './parseFile';
+import type { Rows, Parser } from '../types.flow';
+import parseFile from '../parseFile';
 
 type InputFileProps = {
-    inputRef?: (input: ?HTMLInputElement) => void,
+    inputRef?: React.Ref<any>,
     onChange: (rows: Rows) => void,
     parsers: Parser[]
 };

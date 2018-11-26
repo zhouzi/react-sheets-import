@@ -1,7 +1,7 @@
 /* @flow */
 /* global FileReader */
 import XLSX from 'xlsx';
-import type { Rows } from '../index.js.flow';
+import type { Rows } from '../types.flow';
 
 export default {
     contentType:
