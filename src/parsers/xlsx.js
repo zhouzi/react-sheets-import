@@ -5,7 +5,7 @@ import type { Rows } from '../types.flow';
 
 export default {
     contentType:
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/excel, application/vnd.ms-excel, application/x-excel, application/x-msexcel',
     parse(file: File): Promise<Rows> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();

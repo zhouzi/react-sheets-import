@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 import type { Rows } from '../types.flow';
 
 export default {
-    contentType: 'text/csv',
+    contentType: 'text/csv, text/plain',
     parse(file: File): Promise<Rows> {
         return new Promise((resolve, reject) => {
             const rows = [];
